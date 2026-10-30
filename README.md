@@ -41,7 +41,7 @@ RegexLab is intentionally built with **100% vanilla web technologies**, strictly
 
 ---
 
-## 4. Main Features
+## 4. Main Features & Application Interface
 
 1. **Interactive Multi-Rule Validation Engine:**
    - Supports 5 predefined regular expressions: Username, Email, Strong Password, Password with Digit, and Password Length/Allowed Characters.
@@ -75,6 +75,48 @@ RegexLab is intentionally built with **100% vanilla web technologies**, strictly
 
 ---
 
+### Application Screenshots & Visual Demonstration
+
+#### 1. Email Validation — Valid Input
+When a well-formed email address (e.g., `student123@yahoo.com`) is evaluated, the interface confirms that the local mailbox part, the `@` symbol, the domain host, and the top-level domain (`.com`) strictly satisfy the pattern.
+
+![Email Validation - Valid Input](Images/Screenshot%202026-10-29%20223925.png)
+*Figure 4.1: Live validation passing a valid email address with green status badge and structural criteria confirmation.*
+
+---
+
+#### 2. Email Validation — Targeted Diagnostic Feedback
+When an invalid format is entered (such as `student123@yahoo.com23`), the engine identifies the exact structural violation rather than giving a vague error. Here, it flags that the extension `.com23` contains numbers, violating the constraint that top-level domains must consist of at least two English letters.
+
+![Email Validation - Targeted Diagnosis](Images/Screenshot%202026-10-29%20223945.png)
+*Figure 4.2: Targeted diagnostic feedback identifying an invalid top-level domain (TLD) extension.*
+
+---
+
+#### 3. Strong Password Validation — Valid Input
+For enterprise password enforcement, the pattern requires at least one uppercase letter, one lowercase letter, one digit, and one permitted special character from `{@, $, !, %, *, ?, &}` with a minimum length of 8. Entering `Secure$2026` satisfies all lookahead constraints and boundary conditions.
+
+![Strong Password - Valid Input](Images/Screenshot%202026-10-29%20233647.png)
+*Figure 4.3: Strong Password validation verifying all four positive lookaheads and length criteria.*
+
+---
+
+#### 4. Strong Password Validation — Targeted Failure Diagnosis
+If an input like `SUJAL@123` is submitted, the engine executes individual lookahead checks and isolates the failure: the absence of a lowercase letter.
+
+![Strong Password - Missing Lowercase](Images/Screenshot%202026-10-29%20234116.png)
+*Figure 4.4: Diagnostic feedback pinpointing the missing lowercase letter in an invalid password submission.*
+
+---
+
+#### 5. Interactive Sample Test Suite ("Try These Examples")
+Each validation rule includes 10 pre-configured test cases (5 valid and 5 invalid) organized into two interactive columns. Users and exam evaluators can click any card to instantly load the test string and execute the validator.
+
+![Interactive Sample Test Suite](Images/Screenshot%202026-10-29%20224002.png)
+*Figure 4.5: Sample test suite offering single-click test case loading for rapid viva demonstrations.*
+
+---
+
 ## 5. Project Folder Structure
 
 ```
@@ -83,6 +125,7 @@ RegexLab/
 ├── index.html       # Semantic single-page web layout and SVG automata diagrams
 ├── style.css        # Pure black theme design tokens, layouts, and animations
 ├── script.js        # Rule configuration, validation logic, diagnostics & tracer
+├── Images/          # Application screenshots and handwritten academic coursework diagrams
 └── README.md        # Comprehensive technical & academic documentation
 ```
 
@@ -193,6 +236,16 @@ Thompson's algorithm transforms a regular expression into an equivalent NFA with
 4. Connect concatenation: $q_1 \xrightarrow{\epsilon} q_2$.
 - **NFA States:** $Q_{NFA} = \{q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_7\}$, Start State: $q_0$, Accepting State: $F = \{q_7\}$.
 
+#### Application Vector Representation:
+![Thompson's NFA UI & Table](Images/Screenshot%202026-10-29%20224108.png)
+*Figure 9.1: Application SVG rendering of Thompson's NFA alongside its formal $\epsilon$-transition table.*
+
+#### Coursework Handwritten Derivation:
+In student coursework, Thompson's construction is derived step-by-step from base regular sub-expressions, introducing $\epsilon$-transitions to preserve compositionality:
+
+![Handwritten Thompson's Construction](Images/Screenshot%202026-10-29%20234551.png)
+*Figure 9.2: Coursework handwritten derivation of Thompson's NFA for $r = a(b \mid c)$ with start state $q_0$, concatenation state $q_1$, union branches, and final accepting state $q_6$.*
+
 ---
 
 ### Step 2: Subset Construction (NFA to DFA)
@@ -220,6 +273,32 @@ Subset construction simulates all possible parallel paths of an NFA by grouping 
 | $* C$ | $\{q_4, q_7\}$ | $T$ | $T$ | $T$ | Accepting ($ab$) |
 | $* D$ | $\{q_6, q_7\}$ | $T$ | $T$ | $T$ | Accepting ($ac$) |
 | $T$ | $\emptyset$ | $T$ | $T$ | $T$ | Dead/Trap |
+
+#### Digital Application Views:
+![Subset Construction Table & Diagram](Images/Screenshot%202026-10-29%20224119.png)
+*Figure 9.3: Subset construction interactive panel in RegexLab displaying the $\epsilon$-closure mappings and converted DFA diagram.*
+
+![Close-up DFA Transition Table](Images/Screenshot%202026-10-29%20235430.png)
+*Figure 9.4: Detailed view of the DFA subset transition table specifying start, intermediate, accepting, and dead states.*
+
+![DFA State Machine Diagram](Images/Screenshot%202026-10-29%20235512.png)
+*Figure 9.5: Clean vector diagram of the converted DFA showing transitions on alphabet $\Sigma = \{a, b, c\}$ with trap state $T$.*
+
+#### High-Resolution Classical DFA Model:
+![Classical DFA Diagram with Dead State](Images/Screenshot%202026-10-29%20235621.png)
+*Figure 9.6: Formal 5-state Deterministic Finite Automaton with start state $q_0$, intermediate prefix state $q_1$, accepting states $q_2$ (for $ab$) and $q_3$ (for $ac$), and explicit sink state $q_d$.*
+
+#### Student Coursework Handwritten Proofs:
+The student's classroom derivation rigorously details the direct DFA and its transition table over $\Sigma = \{a, b, c\}$:
+
+![Direct State Sketch](Images/Screenshot%202026-10-29%20235022.png)
+*Figure 9.7: Preliminary transition sketch mapping out initial prefix $a$ and branch completions on $b$ and $c$.*
+
+![Handwritten Complete DFA with Dead State](Images/Screenshot%202026-10-29%20235859.png)
+*Figure 9.8: Complete handwritten DFA diagram explicitly routing all invalid symbols ($b, c$ from $q_0$; $a$ from $q_1$; and all symbols from $q_2, q_3$) into trap state $q_4$.*
+
+![Handwritten DFA Transition Table](Images/Screenshot%202026-10-30%20000041.png)
+*Figure 9.9: Handwritten DFA transition table verifying total determinism across all five states $\{q_0, q_1, q_2, q_3, q_4\}$.*
 
 ---
 
@@ -249,6 +328,21 @@ Subset construction simulates all possible parallel paths of an NFA by grouping 
   $$\delta(B, \{b, c\}) = CD, \quad \delta(B, a) = T$$
   $$\delta(CD, \{a, b, c\}) = T$$
   $$\delta(T, \{a, b, c\}) = T$$
+
+#### Digital Minimization Panel in RegexLab:
+![DFA Minimization UI & Diagram](Images/Screenshot%202026-10-29%20224139.png)
+*Figure 9.10: RegexLab minimization panel showing the merged state $CD$, simplified transitions, and equivalence verification.*
+
+#### Student Coursework Handwritten Minimization Derivation:
+In student class notes, the partitioning algorithm is calculated across $0$-equivalence, $1$-equivalence, and $2$-equivalence:
+- $0\text{-Equivalence: } \{q_0, q_1, q_4\}, \{q_2, q_3\}$
+- $1\text{-Equivalence: } \{q_0, q_4\}, \{q_1\}, \{q_2, q_3\}$
+- $2\text{-Equivalence: } \{q_0\} \to A,\; \{q_4\} \to B,\; \{q_1\} \to C,\; \{q_2, q_3\} \to D$
+
+This proves that states $q_2$ and $q_3$ are equivalent and merge into a single accepting state $D$, producing the minimal 4-state DFA:
+
+![Handwritten DFA Minimization](Images/Screenshot%202026-10-30%20000224.png)
+*Figure 9.11: Handwritten state-equivalence partition derivation and resulting minimal DFA graph.*
 
 ---
 
